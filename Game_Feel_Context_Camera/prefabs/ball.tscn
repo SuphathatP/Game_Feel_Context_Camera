@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://d18drrxdxh8c4"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_msinq"]
+bounce = 0.8
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_0qv76"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ajvyp"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_omdqv"]
+material = SubResource("StandardMaterial3D_ajvyp")
+
+[node name="Ball" type="Node3D"]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_msinq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_0qv76")
+
+[node name="ball_mesh" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("SphereMesh_omdqv")

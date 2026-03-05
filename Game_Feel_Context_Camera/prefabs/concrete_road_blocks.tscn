@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://d2qq7the83ia3"]
+
+[node name="Concrete_road_blocks" type="Node3D"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 0.6, 0, 0, 0, 1, 0, 0, 0)
+use_collision = true
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(3.8, 0, 0, 0, 4, 0, 0, 0, 0.4, 0, 2.3, 0)
+use_collision = true
