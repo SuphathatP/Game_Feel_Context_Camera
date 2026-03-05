@@ -21,10 +21,14 @@ public partial class CameraController : Node3D
     private float targetZoomZ;
 
     [ExportGroup("Hint Camera")]
-    [Export] public Node3D HintCameraPosition;
-    [Export] public float HintBlendSpeed = 1.4f;
-    private Node3D currentHintTarget = null;
+    [Export] public float HintBlendSpeed = 1f;
+    private bool hintActive = false;
+    private Node3D hintTarget = null;
     private float hintBlend = 0f;
+    private float normalFOV = 75f;
+    private float hintFOV = 70f;
+    private Vector3 hintCameraPosition;
+    private Vector3 smoothedMidpoint;
     
     [ExportGroup("Target")]
     [Export] public Node3D Player;
@@ -103,7 +107,8 @@ public partial class CameraController : Node3D
     {
         HandleCameraRotation(delta);
         HandleRayCast(delta);
-        HandleHintTarget(delta);
+        HandleHintBlend(delta);
+        ApplyFinalCameraTransform();
     }
 
     private void HandleCameraRotation(double delta)
@@ -113,7 +118,7 @@ public partial class CameraController : Node3D
         WaitAlignTimer -= dt;
 
         // Lerp Camera to follow player.
-        Vector3 targetPosition = GetFinalPivotPosition();
+        Vector3 targetPosition = Player.GlobalPosition;
         GlobalPosition = GlobalPosition.Lerp(targetPosition, FollowSpeed * dt);
 
         // Read joystick input.
@@ -130,9 +135,9 @@ public partial class CameraController : Node3D
         // Deadzone for camera input.
         bool hasCameraRotateInput = Mathf.Abs(lookInput.X) > 0.01f || Mathf.Abs(lookInput.Y) > 0.01f;
 
+        // Disable manual rotation while hint is active
         if (hasCameraRotateInput)
-        {   
-            // Reset align timer.
+        {
             WaitAlignTimer = WaitAlignTime;
 
             pitchRotation -= lookInput.Y * dt;
@@ -189,8 +194,8 @@ public partial class CameraController : Node3D
 
         baseLocalOffset.Z = Mathf.Lerp(baseLocalOffset.Z, targetZoomZ, ZoomLerpSpeed * dt);
 
-        
-        if (!hasCameraRotateInput && WaitAlignTimer <= 0f)
+        // Disable auto-align while hint is active
+        if (hintBlend < 0.99f && !hasCameraRotateInput && WaitAlignTimer <= 0f)
         {
             Vector3 forwardDirection = PlayerPivot.GlobalTransform.Basis.Z;
 
@@ -199,9 +204,32 @@ public partial class CameraController : Node3D
 
             CameraYaw.Rotation = new Vector3(0, Mathf.LerpAngle(currentYaw, targetYaw, AutoAlignSpeed * dt), 0);
         }
+
         //GD.Print("WaitAlign: ", WaitAlignTimer, "  move: ", movement, "  auto align: ", !hasCameraRotateInput && isPlayerMoving && WaitAlignTimer <= 0f);
-        camera.GlobalBasis = CameraZoom.GlobalBasis;
         camera.GlobalPosition = CameraZoom.GlobalPosition;
+
+        // Normal gameplay rotation (orbit)
+        Basis gameplayBasis = CameraZoom.GlobalBasis.Orthonormalized();
+
+        // If no hint blend or no target change to gameplay camera
+        if (hintBlend <= 0f || hintTarget == null)
+        {
+            camera.GlobalBasis = gameplayBasis;
+            return;
+        }
+
+        // Midpoint between player and hint.
+        Vector3 midpoint = (Player.GlobalPosition + hintTarget.GlobalPosition) * 0.5f;
+
+        // Direction from camera to midpoint.
+        Vector3 cameraPosition = camera.GlobalPosition;
+        Vector3 direction = (midpoint - cameraPosition).Normalized();
+
+        // Basis looking at midpoint.
+        Basis hintBasis = Basis.LookingAt(direction, Vector3.Up).Orthonormalized();
+
+        // Blend between normal orbit and hint.
+        camera.GlobalBasis = gameplayBasis.Slerp(hintBasis, hintBlend);  
     }
 
     private void CameraInitSync()
@@ -269,8 +297,6 @@ public partial class CameraController : Node3D
 
         // Extra Collision ray to ensure no cliping.
         HandleCameraCollision(playerPosition);
-
-        camera.GlobalTransform = GetFinalCameraTransform();
     }
 
 
@@ -297,7 +323,7 @@ public partial class CameraController : Node3D
 
         // Up / Down
         SetRay(UpRay, origin, (forward + up * 0.4f).Normalized());
-        SetRay(DownRay, origin, (forward - up * 0.4f).Normalized());
+        SetRay(DownRay, origin, (forward - up * 0.2f).Normalized());
     }
 
     private void SetRay(RayCast3D ray, Vector3 origin, Vector3 direction)
@@ -344,61 +370,33 @@ public partial class CameraController : Node3D
             CameraZoom.GlobalPosition = newPosition;
         }
     }
-
-    public void EnterHint(Node3D target, Node3D cameraPosition)
+    
+    // Hint override camera.
+    public void EnterHint(Node3D target, float fov = 70f)
     {
-        currentHintTarget = target;
-        HintCameraPosition = cameraPosition;
+        hintBlend = 0f;
+        hintCameraPosition = CameraZoom.GlobalPosition;
+        hintTarget = target;
+        hintFOV = fov;
+        hintActive = true;
     }
 
     public void ExitHint()
     {
-        currentHintTarget = null;
+        hintActive = false;
     }
 
-    private Vector3 GetFinalPivotPosition()
+    private void HandleHintBlend(double delta)
     {
-        Vector3 playerPosition = PlayerPivot.GlobalPosition;
-
-        if (currentHintTarget != null)
-            return playerPosition.Lerp(currentHintTarget.GlobalPosition, hintBlend);
-        return playerPosition;
+        float dt = (float)delta;
+        float target = hintActive ? 1f : 0f;
+        hintBlend = Mathf.MoveToward(hintBlend, target, HintBlendSpeed * dt);
     }
 
-    private Transform3D GetFinalCameraTransform()
+    private void ApplyFinalCameraTransform()
     {
-        // Normal camera transform.
-        Transform3D normal = CameraZoom.GlobalTransform;
-
-        if (currentHintTarget == null)
-            return normal;
-
-        // Move camera toward hint camera position.
-        Transform3D hint = HintCameraPosition.GlobalTransform;
-
-        // Blend position
-        Vector3 position = normal.Origin.Lerp(hint.Origin, hintBlend);
-
-        // Blend rotation toward the midpoint between player and hint target.
-        Vector3 playerPos = Player.GlobalPosition;
-        Vector3 targetPos = currentHintTarget.GlobalPosition;
-        Vector3 lookPoint = playerPos.Lerp(targetPos, 0.5f);
-
-        Basis rotation = Basis.LookingAt((lookPoint - position).Normalized(), Vector3.Up);
-
-        return new Transform3D(rotation, position);
-    }
-
-
-
-    private void HandleHintTarget(double delta)
-    {
-            float dt = (float)delta;
-
-            if (currentHintTarget != null)
-                hintBlend = Mathf.MoveToward(hintBlend, 1f, HintBlendSpeed * dt);
-            else
-                hintBlend = Mathf.MoveToward(hintBlend, 0f, HintBlendSpeed * dt);
+        float targetFov = Mathf.Lerp(normalFOV, hintFOV, hintBlend);
+        camera.Fov = Mathf.Lerp(camera.Fov, targetFov, 8f * (float)GetProcessDeltaTime());
     }
 
     private void DebugDrawRay(RayCast3D ray, Color color)
@@ -417,5 +415,4 @@ public partial class CameraController : Node3D
             DebugDraw3D.DrawSphere(hit, 0.1f, Colors.Red);
         }
     }
-
 }

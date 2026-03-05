@@ -60,10 +60,11 @@ material = SubResource("StandardMaterial3D_r1qm3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.700001, 1.2499998, 15.8)
 camera = NodePath("../Camera3D")
 
-[node name="CameraController" parent="." node_paths=PackedStringArray("camera", "Player", "PlayerPivot") instance=ExtResource("15_selhm")]
+[node name="CameraController" parent="." node_paths=PackedStringArray("camera", "Player", "PlayerPivot", "RayOrigin") instance=ExtResource("15_selhm")]
 camera = NodePath("../Camera3D")
 Player = NodePath("../Player")
 PlayerPivot = NodePath("../Player/PlayerPivot")
+RayOrigin = NodePath("../Player/PlayerPivot/RayOrigin")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 cull_mask = 524287

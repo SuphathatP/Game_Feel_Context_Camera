@@ -3,8 +3,9 @@ using Godot;
 public partial class HintArea : Area3D
 {
     [Export] public Node3D HintTarget;
+    [Export] public float HintFOV = 50f;
     [Export] public CameraController Camera;
-    [Export] public Node3D HintCameraPosition;
+    
 
     public override void _Ready()
     {
@@ -16,7 +17,7 @@ public partial class HintArea : Area3D
     {
         if (body.IsInGroup("player"))
         {
-            Camera.EnterHint(HintTarget, HintCameraPosition);
+            Camera.EnterHint(HintTarget, HintFOV);
         }
     }
 

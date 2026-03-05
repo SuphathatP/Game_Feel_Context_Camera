@@ -174,7 +174,7 @@ _data = {
 }
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_34ll2"]
-size = Vector3(12.1553955, 15.211426, 13.843872)
+size = Vector3(12.1553955, 15.211426, 6.550308)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o0kot"]
 size = Vector3(20, 12.698242, 5.7865143)
@@ -195,18 +195,17 @@ environment = SubResource("Environment_4i8kc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.9, 1.2, 20.300001)
 camera = NodePath("../Camera3D")
 
-[node name="CameraController" parent="Level" node_paths=PackedStringArray("camera", "Player", "PlayerPivot", "RayOrigin", "HintCameraPosition") instance=ExtResource("3_qqjuk")]
+[node name="CameraController" parent="Level" node_paths=PackedStringArray("camera", "Player", "PlayerPivot", "RayOrigin") instance=ExtResource("3_qqjuk")]
 camera = NodePath("../Camera3D")
 Player = NodePath("../Player")
 PlayerPivot = NodePath("../Player/PlayerPivot")
 RayOrigin = NodePath("../Player/PlayerPivot/RayOrigin")
-HintCameraPosition = NodePath("../HintArea1/HintCameraPosition")
 
 [node name="Camera3D" type="Camera3D" parent="Level"]
 cull_mask = 524287
 
 [node name="NPC" parent="Level" instance=ExtResource("8_ul12r")]
-transform = Transform3D(-0.43120414, 0, -0.9022544, 0, 1, 0, 0.9022544, 0, -0.43120414, 20.475235, 8.219999, -67.27509)
+transform = Transform3D(-0.43120414, 0, -0.9022544, 0, 1, 0, 0.9022544, 0, -0.43120414, 20.475235, 8.219999, -62.20856)
 
 [node name="Hangar" type="Node3D" parent="Level"]
 
@@ -643,7 +642,7 @@ transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -8, -389.526)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.533503, 9.969462, -57.35643)
 
 [node name="Box" parent="Level/Props" instance=ExtResource("9_lextn")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9146385, -2.2494626, -7.886986)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9146385, -2.2494626, -2.795269)
 
 [node name="Barrel" parent="Level/Props" instance=ExtResource("10_lextn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.9445763, -2.0494628, -40.721596)
@@ -689,32 +688,24 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54299736, -1.5)
 use_collision = true
 size = Vector3(2, 1, 4)
 
-[node name="HintArea1" type="Area3D" parent="Level" node_paths=PackedStringArray("HintTarget", "Camera", "HintCameraPosition")]
+[node name="HintArea1" type="Area3D" parent="Level" node_paths=PackedStringArray("HintTarget", "Camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.264189, 12.133618, -63.73401)
 script = ExtResource("12_o0kot")
 HintTarget = NodePath("../NPC")
 Camera = NodePath("../CameraController")
-HintCameraPosition = NodePath("HintCameraPosition")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/HintArea1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7917519, 0, -0.99224854)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7917519, 0, 2.196022)
 shape = SubResource("BoxShape3D_34ll2")
 
-[node name="HintCameraPosition" type="Node3D" parent="Level/HintArea1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.254, 1, 0)
-
-[node name="HintArea2" type="Area3D" parent="Level" node_paths=PackedStringArray("HintTarget", "Camera", "HintCameraPosition")]
+[node name="HintArea2" type="Area3D" parent="Level" node_paths=PackedStringArray("HintTarget", "Camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 17.40358, -95.12664)
 script = ExtResource("12_o0kot")
 HintTarget = NodePath("../Squares/SquarePillar/HoloSquare")
 Camera = NodePath("../CameraController")
-HintCameraPosition = NodePath("HintCameraPosition")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/HintArea2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.650879, -1.0173569)
 shape = SubResource("BoxShape3D_o0kot")
-
-[node name="HintCameraPosition" type="Node3D" parent="Level/HintArea2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -6, 5.397)
 
 [editable path="Level/Player"]
