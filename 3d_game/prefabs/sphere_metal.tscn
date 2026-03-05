@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://civjfub05p8h5"]
+
+[ext_resource type="SphereMesh" uid="uid://dvi3rvvtxywkr" path="res://3d_game/materials/sphere_metal_material.tres" id="1_o8tck"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_dpjeu"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_o8tck"]
+
+[node name="Sphere_metal" type="Node3D" groups=["props"]]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 4
+mass = 4.0
+physics_material_override = SubResource("PhysicsMaterial_dpjeu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("SphereShape3D_o8tck")
+
+[node name="sphere_metal_mesh" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = ExtResource("1_o8tck")
+skeleton = NodePath("../CollisionShape3D")

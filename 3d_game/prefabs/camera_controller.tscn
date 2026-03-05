@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvplx6at5j3ee"]
+
+[ext_resource type="Script" uid="uid://bfisj4uxcilhq" path="res://3d_game/scripts/CameraController.cs" id="1_ym5qs"]
+
+[node name="CameraController" type="Node3D" node_paths=PackedStringArray("CameraPivot", "CameraYaw", "CameraPitch", "CameraOffset", "CameraZoom", "CenterRay", "Left1Ray", "Left2Ray", "Right1Ray", "Right2Ray", "UpRay", "DownRay", "CameraCollisionRay")]
+script = ExtResource("1_ym5qs")
+CameraPivot = NodePath("CameraPiviot")
+CameraYaw = NodePath("CameraPiviot/CameraYaw")
+CameraPitch = NodePath("CameraPiviot/CameraYaw/CameraPitch")
+CameraOffset = NodePath("CameraPiviot/CameraYaw/CameraPitch/CameraOffset")
+CameraZoom = NodePath("CameraPiviot/CameraYaw/CameraPitch/CameraOffset/CameraZoom")
+CenterRay = NodePath("CameraPiviot/CenterRayCast")
+Left1Ray = NodePath("CameraPiviot/Left1RayCast")
+Left2Ray = NodePath("CameraPiviot/Left2RayCast")
+Right1Ray = NodePath("CameraPiviot/Right1RayCast")
+Right2Ray = NodePath("CameraPiviot/Right2RayCast")
+UpRay = NodePath("CameraPiviot/UpRayCast")
+DownRay = NodePath("CameraPiviot/DownRayCast")
+CameraCollisionRay = NodePath("CameraPiviot/CameraCollisionRay")
+
+[node name="CameraPiviot" type="Node3D" parent="."]
+
+[node name="CameraYaw" type="Node3D" parent="CameraPiviot"]
+
+[node name="CameraPitch" type="Node3D" parent="CameraPiviot/CameraYaw"]
+transform = Transform3D(0.99999994, 0, 0, 0, 0.9396925, 0.34202012, 0, -0.3420201, 0.9396926, 0, 0, 0)
+
+[node name="CameraOffset" type="Node3D" parent="CameraPiviot/CameraYaw/CameraPitch"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
+
+[node name="CameraZoom" type="Node3D" parent="CameraPiviot/CameraYaw/CameraPitch/CameraOffset"]
+
+[node name="CameraCollisionRay" type="RayCast3D" parent="CameraPiviot"]
+
+[node name="Right2RayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)
+
+[node name="Right1RayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)
+
+[node name="CenterRayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)
+
+[node name="Left1RayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)
+
+[node name="Left2RayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)
+
+[node name="UpRayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)
+
+[node name="DownRayCast" type="RayCast3D" parent="CameraPiviot"]
+target_position = Vector3(0, 0, 4)

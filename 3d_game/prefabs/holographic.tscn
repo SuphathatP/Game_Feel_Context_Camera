@@ -1,0 +1,111 @@
+[gd_scene load_steps=11 format=3 uid="uid://dotnaip2jco4j"]
+
+[ext_resource type="Material" uid="uid://ccwrreee6alio" path="res://3d_game/materials/pillar_top_material.tres" id="1_jgkld"]
+[ext_resource type="Material" uid="uid://j2f1cdb7i4mb" path="res://3d_game/materials/holographic_logo_material.tres" id="1_lhbis"]
+[ext_resource type="Script" uid="uid://dx077ct4d30gr" path="res://3d_game/scripts/Holographic.cs" id="1_n6l58"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_nv5kn"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_lhbis"]
+material = ExtResource("1_jgkld")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_nv5kn"]
+material = ExtResource("1_lhbis")
+
+[sub_resource type="BoxMesh" id="BoxMesh_nv5kn"]
+material = ExtResource("1_lhbis")
+
+[sub_resource type="Animation" id="Animation_jgkld"]
+resource_name = "holographic_anim"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("holographic_logo_mesh:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.6666666, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 2, 0), Vector3(0, 2.4, 0), Vector3(0, 2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("holographic_logo_mesh:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0.7853982), Vector3(0, 1.5707964, 0.7853982), Vector3(0, 3.1415927, 0.7853982)]
+}
+
+[sub_resource type="Animation" id="Animation_n6l58"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("holographic_logo_mesh:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 2, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("holographic_logo_mesh:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0.7853982)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f42pg"]
+_data = {
+&"RESET": SubResource("Animation_n6l58"),
+&"holographic_anim": SubResource("Animation_jgkld")
+}
+
+[node name="Holographic" type="Node3D"]
+script = ExtResource("1_n6l58")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 0.1, 0, 0, 0, 4, 0, 0, 0)
+disable_mode = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("CylinderShape3D_nv5kn")
+
+[node name="base_mesh" type="MeshInstance3D" parent="StaticBody3D/CollisionShape3D"]
+mesh = SubResource("CylinderMesh_lhbis")
+
+[node name="projector_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.02, 0, 0, 0, 0.6, 0, 0.10000001, 0)
+mesh = SubResource("CylinderMesh_nv5kn")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0.2, 0)
+light_color = Color(0, 1, 1, 1)
+light_energy = 6.0
+spot_range = 2.0
+spot_angle = 90.0
+
+[node name="holographic_logo_mesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.84852815, -0.84852815, 0, 0.84852815, 0.84852815, 0, 0, 0, 0.1, 0, 2, 0)
+mesh = SubResource("BoxMesh_nv5kn")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_f42pg")
+}
