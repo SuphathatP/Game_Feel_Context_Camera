@@ -690,6 +690,8 @@ size = Vector3(2, 1, 4)
 
 [node name="HintArea1" type="Area3D" parent="Level" node_paths=PackedStringArray("HintTarget", "Camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.264189, 12.133618, -63.73401)
+collision_layer = 4
+collision_mask = 5
 script = ExtResource("12_o0kot")
 HintTarget = NodePath("../NPC")
 Camera = NodePath("../CameraController")
@@ -700,6 +702,8 @@ shape = SubResource("BoxShape3D_34ll2")
 
 [node name="HintArea2" type="Area3D" parent="Level" node_paths=PackedStringArray("HintTarget", "Camera")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 17.40358, -95.12664)
+collision_layer = 4
+collision_mask = 5
 script = ExtResource("12_o0kot")
 HintTarget = NodePath("../Squares/SquarePillar/HoloSquare")
 Camera = NodePath("../CameraController")

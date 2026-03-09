@@ -20,6 +20,8 @@ material = ExtResource("2_friah")
 material = ExtResource("3_fpxhf")
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("PlayerPivot", "playerHeadCollision", "FlashLight", "PlayerEyes") groups=["player"]]
+collision_layer = 4
+collision_mask = 5
 script = ExtResource("1_ddsmw")
 PlayerPivot = NodePath("PlayerPivot")
 playerHeadCollision = NodePath("CollisionUpper")
