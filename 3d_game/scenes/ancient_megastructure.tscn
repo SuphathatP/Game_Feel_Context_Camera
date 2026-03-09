@@ -199,7 +199,7 @@ camera = NodePath("../Camera3D")
 camera = NodePath("../Camera3D")
 Player = NodePath("../Player")
 PlayerPivot = NodePath("../Player/PlayerPivot")
-RayOrigin = NodePath("../Player/RayOrigin")
+RayOrigin = NodePath("../Player/PlayerPivot/RayOrigin")
 
 [node name="Camera3D" type="Camera3D" parent="Level"]
 cull_mask = 524287

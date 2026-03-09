@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://t50gtvfxfb28"]
 
-[ext_resource type="Script" uid="uid://cecotml6ic8y5" path="res://Game_Feel_Context_Camera/scripts/Player.cs" id="1_ddsmw"]
-[ext_resource type="Material" uid="uid://b1riiqd3padwa" path="res://Game_Feel_Context_Camera/materials/player_eyes_material.tres" id="2_friah"]
-[ext_resource type="Material" uid="uid://wi1sebjnq2l8" path="res://Game_Feel_Context_Camera/materials/water_collision_red.tres" id="3_fpxhf"]
+[ext_resource type="Script" uid="uid://cecotml6ic8y5" path="res://3d_game/scripts/Player.cs" id="1_ddsmw"]
+[ext_resource type="Material" uid="uid://b1riiqd3padwa" path="res://3d_game/materials/player_eyes_material.tres" id="2_friah"]
+[ext_resource type="Material" uid="uid://wi1sebjnq2l8" path="res://3d_game/materials/water_collision_red.tres" id="3_fpxhf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yv03m"]
 
@@ -20,8 +20,6 @@ material = ExtResource("2_friah")
 material = ExtResource("3_fpxhf")
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("PlayerPivot", "playerHeadCollision", "FlashLight", "PlayerEyes") groups=["player"]]
-collision_layer = 4
-collision_mask = 5
 script = ExtResource("1_ddsmw")
 PlayerPivot = NodePath("PlayerPivot")
 playerHeadCollision = NodePath("CollisionUpper")
@@ -54,10 +52,10 @@ light_energy = 4.0
 shadow_enabled = true
 spot_range = 10.0
 
+[node name="RayOrigin" type="Node3D" parent="PlayerPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
 [node name="player_water" type="MeshInstance3D" parent="."]
 visible = false
 layers = 524288
 mesh = SubResource("CapsuleMesh_jvm3a")
-
-[node name="RayOrigin" type="Node3D" parent="."]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
