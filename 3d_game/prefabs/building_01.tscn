@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=3 uid="uid://bj36silwivdqu"]
+
+[ext_resource type="Material" uid="uid://jva478gykulh" path="res://3d_game/materials/building_floor_material.tres" id="1_c5qpk"]
+[ext_resource type="Material" uid="uid://dwmi5toumss6v" path="res://3d_game/materials/highway_side_material.tres" id="2_806wk"]
+
+[node name="Building_01" type="Node3D"]
+
+[node name="Building_floor" type="CSGBox3D" parent="."]
+transform = Transform3D(20, 0, 0, 0, 0.25, 0, 0, 0, 20, 0, 0, 0)
+use_collision = true
+material = ExtResource("1_c5qpk")
+
+[node name="Building_floor2" type="CSGBox3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 0.25, 0, 0, 0, 6, 4.4, 5.7, 7)
+use_collision = true
+material = ExtResource("1_c5qpk")
+
+[node name="Wall" type="CSGBox3D" parent="."]
+transform = Transform3D(19.999998, 0, 0, 0, 6, 0, 0, 0, 0.59999996, 0, 2.8000002, 10.300001)
+use_collision = true
+material = ExtResource("2_806wk")
+
+[node name="Wall2" type="CSGBox3D" parent="."]
+transform = Transform3D(19.999998, 0, 0, 0, 6, 0, 0, 0, 0.59999996, 0, 2.8, -10.299999)
+use_collision = true
+material = ExtResource("2_806wk")
+
+[node name="Wall_back_door" type="CSGBox3D" parent="."]
+transform = Transform3D(-8.742278e-07, 0, 0.59999996, 0, 6, 0, -19.999998, 0, -2.6226832e-08, 9.699999, 2.8, 0)
+use_collision = true
+material = ExtResource("2_806wk")
+
+[node name="Back_door" type="CSGBox3D" parent="Wall_back_door"]
+transform = Transform3D(-7.2867614e-08, 0, -0.14000002, 0, 0.667, 0, 1.6669999, 0, -6.121411e-09, -0.36000013, -0.116333336, 0)
+operation = 2
+
+[node name="Wall_door" type="CSGBox3D" parent="."]
+transform = Transform3D(-8.742278e-07, 0, 0.59999996, 0, 6, 0, -19.999998, 0, -2.6226832e-08, -9.699999, 2.8, 0)
+use_collision = true
+material = ExtResource("2_806wk")
+
+[node name="Door" type="CSGBox3D" parent="Wall_door"]
+transform = Transform3D(-2.1855702e-09, 0, -0.20000003, 0, 0.6666667, 0, 1.6666666, 0, -2.9140938e-07, 0, -0.116666675, 0)
+operation = 2
+
+[node name="Stair" type="CSGBox3D" parent="."]
+transform = Transform3D(4, 0, 0, 0, 0.34641016, 6, 0, -0.2, 10.392304, 7.6, 2.7000003, -1.0999997)
+use_collision = true
+material = ExtResource("2_806wk")
+
+[node name="Pillar" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 5.6, 0, 0, 0, 1, -0.099999994, 2.8000002, 4.500001)
+use_collision = true
+material = ExtResource("2_806wk")

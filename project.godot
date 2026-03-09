@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Game_Feel_Context_Camera"
+config/name="3d_game"
 run/main_scene="uid://d1w3a33fglstr"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"

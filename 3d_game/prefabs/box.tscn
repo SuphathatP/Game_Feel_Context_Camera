@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://brg4xy2blnve0"]
+
+[ext_resource type="Material" uid="uid://ccwrreee6alio" path="res://3d_game/materials/pillar_top_material.tres" id="1_fmc2d"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_fmc2d"]
+bounce = 0.2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_homq4"]
+size = Vector3(1, 1, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_homq4"]
+material = ExtResource("1_fmc2d")
+
+[node name="Box" type="Node3D" groups=["props"]]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+collision_layer = 4
+mass = 2.0
+physics_material_override = SubResource("PhysicsMaterial_fmc2d")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_homq4")
+
+[node name="box_mesh" type="MeshInstance3D" parent="RigidBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0)
+mesh = SubResource("BoxMesh_homq4")

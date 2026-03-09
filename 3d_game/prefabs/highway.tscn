@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7anjvc1kdas7"]
+
+[ext_resource type="Material" uid="uid://d15vn16aiyer5" path="res://game_feel/materials/highway_road_material.tres" id="1_vvdii"]
+[ext_resource type="Material" uid="uid://dwmi5toumss6v" path="res://game_feel/materials/highway_side_material.tres" id="2_xibo6"]
+
+[node name="Highway" type="Node3D"]
+
+[node name="Highway_road" type="CSGBox3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 100, 0, 0, 0)
+use_collision = true
+material = ExtResource("1_vvdii")
+
+[node name="Highway_side" type="CSGPolygon3D" parent="."]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 100, -6.4, 0.3, 50)
+use_collision = true
+polygon = PackedVector2Array(0, 0.5, 0, 1, 1, 1, 1, 0)
+material = ExtResource("2_xibo6")
+
+[node name="Highway_side2" type="CSGPolygon3D" parent="."]
+transform = Transform3D(-1.4, 0, -1.509958e-05, 0, 1, 0, 2.1139412e-07, 0, -100, 6.4, 0.3, -50)
+use_collision = true
+polygon = PackedVector2Array(0, 0.5, 0, 1, 1, 1, 1, 0)
+material = ExtResource("2_xibo6")
+
+[node name="Highway_middle" type="CSGBox3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 1, 0, 0, 0, 100, 0, 1, 0)
+use_collision = true
+material = ExtResource("2_xibo6")
